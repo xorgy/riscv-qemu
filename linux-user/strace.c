@@ -1419,6 +1419,10 @@ print_linkat(const struct syscallname *name,
 }
 #endif
 
+#if defined(TARGET_NR_llseek) && !defined(TARGET_NR__llseek)
+#define TARGET_NR__llseek TARGET_NR_llseek
+#endif
+
 #ifdef TARGET_NR__llseek
 static void
 print__llseek(const struct syscallname *name,
@@ -2153,7 +2157,7 @@ print_renameat(const struct syscallname *name,
 }
 #endif
 
-#ifdef TARGET_NR_statfs
+#if defined(TARGET_NR_statfs) || defined(TARGET_NR_statfs64)
 static void
 print_statfs(const struct syscallname *name,
     abi_long arg0, abi_long arg1, abi_long arg2,
