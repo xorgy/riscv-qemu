@@ -3555,8 +3555,7 @@ void cpu_loop(CPURISCVState *env)
             } else if (ret != -TARGET_QEMU_ESIGRETURN) {
                 env->gpr[xA0] = ret;
             } if(cs->singlestep_enabled) {
-                /* TODO GDB */
-                /* goto gdbstep; */
+                goto gdbstep;
             }
             break;
 
@@ -3577,8 +3576,7 @@ void cpu_loop(CPURISCVState *env)
             }
             end_exclusive();
             if(cs->singlestep_enabled) {
-                /* TODO GDB */
-                /* goto gdbstep; */
+                goto gdbstep;
             }
             break;
         case RISCV_EXCP_ILLEGAL_INST:
@@ -3589,13 +3587,11 @@ void cpu_loop(CPURISCVState *env)
             signum = TARGET_SIGSEGV;
             sigcode = TARGET_SEGV_MAPERR;
             break;
-            /* TODO GDB
         case EXCP_DEBUG:
         gdbstep:
             signum = gdb_handlesig(cs, TARGET_SIGTRAP);
             sigcode = TARGET_TRAP_BRKPT;
             break;
-            */
         default:
             EXCP_DUMP(env, "\nqemu: unhandled CPU exception %#x - aborting\n",
                      trapnr);
